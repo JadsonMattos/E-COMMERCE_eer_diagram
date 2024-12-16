@@ -1,0 +1,57 @@
+1. Recuperar todos os pedidos com o valor total:
+
+SELECT id_pedido, id_cliente, data_pedido, valor_total
+FROM Pedidos;
+
+2. Listar produtoscom preço acima de 500:
+
+SELECT nome_produto, preco
+FROM Produtos
+WHERE preco > 500;
+
+3. Calcular o valor total de estoque (quantidade * preço) para cada produto:
+
+SELECT p.nome_produto, e.quantidade, p.preco,
+    (e.quantidade * p.preco) AS valor_total_estoque
+FROM Produtos p
+JOIN Estoques e ON p.id_produto = e.id_produto;
+
+4. Listar pedidos ordenados pela data:
+
+SELECT id_pedido, data_pedido, valor_total
+FROM Pedidos
+ORDER BY data_pedido DESC;
+
+5. Total de pedidos por cliente com valor total acima de 1000:
+
+SELEC c.nome_cliente, COUNT(p.id_pedido) AS total_pedidos, SUM(p.valor_total) AS valor_total
+FROM Pedidos p
+JOIN Clientes c ON p.id_cliente = c.id_cliente
+GROUP BY c.nome_cliente
+HAVING SUM(p.valor_total) > 1000;
+
+6. Relação de produtos, fornecedores e estoques:
+
+SELECT p.nome_produto, f.nome_fornecedor, e.quantidade
+FROM Produtos p
+JOIN Fornecedores f ON p.id_fornecedor = f.id_fornecedor
+JOIN Estoques e ON p.id_produto = e.id_produto;
+
+7. Quantos pedidos foram feitos por cada cliente?
+
+SELECT c.nome_cliente, COUNT(p.id_pedido) AS total_pedidos
+FROM Clientes c
+LEFT JOIN Pedidos p ON c.id_cliente = p.id_cliente
+GROUP BY c.nome_cliente;
+
+8. Algum vendedor também é fornecedor?
+
+SELEC v.nome_vendedor AS vendedor, f.nome_fornecedor AS fornecedor
+FROM Vendedores v
+JOIN Fornecedores f ON v.nome_vendedor = f.nome_fornecedor
+
+9. Relação de nomes dos fornecedores e nomes dos produtos:
+
+SELECT f.nome_fornecedor, p.nome_produto
+FROM Fornecedores f
+JOIN Produtos p ON f.id_fornecedor = p.id_fornecedor;
